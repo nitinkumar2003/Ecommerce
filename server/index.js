@@ -6,7 +6,8 @@ import cookieParser  from  'cookie-parser';
 import helmet from 'helmet'
 import morgan from 'morgan';
 import connectMongo from './config/mongodbConect.js';
-
+import ResponseInterceptor from './middleware/ResponseInterceptor.middleware.js';
+import userRoute from './routes/user.route.js'
 dotenv.config();
 const app = express();
 
@@ -20,6 +21,15 @@ app.use(helmet({crossOriginResourcePolicy:false}))
 app.get('/',(req,res)=>{
     res.json({message:"server start..."});
 })
+
+
+// Response Intercepter 
+app.use(ResponseInterceptor)
+
+
+
+// @@ routes
+// app.use("/user",userRoute)
 
 app.all("*",(req,res)=>{
     res.status(404).json({
