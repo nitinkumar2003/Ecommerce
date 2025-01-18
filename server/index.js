@@ -8,6 +8,7 @@ import morgan from 'morgan';
 import connectMongo from './config/mongodbConect.js';
 import ResponseInterceptor from './middleware/ResponseInterceptor.middleware.js';
 import userRoute from './routes/user.route.js'
+import errorHandler from './middleware/ErrorHandle.middleware.js';
 dotenv.config();
 const app = express();
 
@@ -29,7 +30,7 @@ app.use(ResponseInterceptor)
 
 
 // @@ routes
-// app.use("/user",userRoute)
+app.use("/user",userRoute)
 
 app.all("*",(req,res)=>{
     res.status(404).json({
@@ -39,6 +40,7 @@ app.all("*",(req,res)=>{
     })
 })
 
+app.use(errorHandler)
 connectMongo().then(() => {
     app.listen(process.env.PORT || 5000, () => {
       console.log(`Server running on port ${process.env.PORT || 5000}`);

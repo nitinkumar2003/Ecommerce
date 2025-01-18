@@ -6,6 +6,9 @@ const ValidateMiddleware = (schema) => (req, res, next) => {
       console.log('error',err)
       let message = "";
       switch (err.type) {
+        case "any.required":
+          message= `${err.context.key} is required`;
+          break;
         case "string.empty":
           message = `${err.context.key} is required`;
           break;
@@ -25,9 +28,8 @@ const ValidateMiddleware = (schema) => (req, res, next) => {
         default:
           break;
       }
-      return next(
-        new ErrorHandler(message ? message : error.details[0].message, 400)
-      );
+       return next( new ErrorHandler(message ? message : error.details[0].message, 400))
+      
     }
     next();
   };

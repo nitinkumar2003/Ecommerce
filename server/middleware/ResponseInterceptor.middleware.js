@@ -8,7 +8,7 @@ function ResponseInterceptor(req,res,next){
             method:req.method,
             path:req.originUrl
         }
-        originalJson.call(this.modifiedData);
+        originalJson.call(this,modifiedData);
     }
     next();
 }
