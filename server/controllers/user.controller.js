@@ -5,6 +5,7 @@ import ErrorHandler from "../utils/ErrorHandler.util.js";
 import sendEmail from "../utils/SendEmail.util.js";
 import userModel from "../models/user.model.js";
 import encodeJwtToken from "../utils/EncodeJwtToken.util.js";
+import { StatusCode } from '../utils/statuscode/StatusCode.js';
 
 export const registerUserController = AsyncMiddleware(
     async (req, res, next) => {
@@ -28,7 +29,7 @@ export const registerUserController = AsyncMiddleware(
             data,
         })
 
-        return res.status(201).json({
+        return res.status(StatusCode.OK).json({
             message: `Please check your mail : ${email} to activate your account`,
             data: `${process.env.FRONT_URL}/verify-email?code=${activateToken}`,
         })
