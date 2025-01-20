@@ -17,8 +17,10 @@ const ValidateMiddleware = (schema) => (req, res, next) => {
           break;
         case "string.max":
           message = `${err.context.key} must be at most ${err.context.limit} characters`;
+          break;
         case "string.email":
           message = `${err.context.key} must be a valid email address`;
+          break;
         case "string.pattern.name":
           message = `password must be 8-15 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character`;
           break;

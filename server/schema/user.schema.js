@@ -12,3 +12,10 @@ export const userRegisterSchema=Joi.object({
 
 }).unknown(false)
 
+export const userLoginSchema=Joi.object({
+  email:Joi.string().email().required(),
+  password:Joi.string().regex(
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#@$!%*?&])[A-Za-z\d#@$!%*?&]{8,15}$/,
+    "password"
+  ).required()
+}).unknown(false)
