@@ -1,0 +1,167 @@
+/your-project
+  ├── /app                          # Next.js 13+ App Directory for routing and page logic
+  │   ├── /layout.js                # Main layout (applies globally to all pages)
+  │   ├── /page.js                  # Root page (homepage)
+  │   ├── /about                    # About page related components and logic
+  │   │   └── /page.js
+  │   ├── /search                   # Search-related pages and components
+  │   │   ├── /page.js
+  │   │   └── /components.js
+  │   ├── /profile                  # User profile and settings pages
+  │   │   ├── /page.js
+  │   │   └── /settings/page.js
+  │   └── /auth                     # Authentication related pages (e.g., login, register)
+  │       ├── /page.js
+  │       └── /login/page.js
+  ├── /components                   # Reusable UI components
+  │   ├── /ui                       # Generic UI components
+  │   │   ├── Button.js
+  │   │   ├── Input.js
+  │   │   └── Loader.js
+  │   ├── /layout                   # Layout components (Header, Footer, Sidebar)
+  │   │   ├── Header.js
+  │   │   ├── Footer.js
+  │   │   └── Sidebar.js
+  │   ├── /modals                   # Modal components (SignUp, Confirmation, etc.)
+  │   │   ├── SignUpModal.js
+  │   │   └── ConfirmationModal.js
+  │   ├── /forms                    # Form components (Login, Contact)
+  │   │   ├── ContactForm.js
+  │   │   └── LoginForm.js
+  │   └── /widgets                  # Reusable widgets (e.g., cards, lists, tables)
+  │       ├── ProductCard.js
+  │       └── UserCard.js
+  ├── /contexts                     # React context providers for global state management
+  │   ├── AuthContext.js            # Auth state context
+  │   └── ThemeContext.js           # Theme context (light/dark mode)
+  ├── /hooks                        # Custom hooks
+  │   ├── useAuth.js                # Authentication hook
+  │   ├── useFetch.js               # Custom hook for fetching data
+  │   ├── useLocalStorage.js        # Custom hook for localStorage management
+  │   └── useDebounce.js            # Hook for debouncing inputs/requests
+  ├── /lib                          # Libraries, utilities, API integrations
+  │   ├── /api                      # API-related logic and utilities
+  │   │   ├── axiosInstance.js      # Axios instance with default settings
+  │   │   ├── userApi.js            # User API calls
+  │   │   ├── productApi.js         # Product API calls
+  │   │   ├── authApi.js            # Auth API calls
+  │   │   └── index.js              # Aggregator for API functions
+  │   ├── bing.js                   # Integration with Bing API
+  │   ├── googleMaps.js             # Integration with Google Maps API
+  │   ├── stripe.js                 # Integration with Stripe API
+  │   ├── dateUtils.js              # Date-related utilities
+  │   └── currencyUtils.js          # Currency-related utilities
+  ├── /public                       # Static assets (images, fonts, etc.)
+  │   ├── /images                   # Image assets (logos, icons, etc.)
+  │   └── /fonts                    # Custom font files
+  ├── /redux                        # Redux-related files for state management
+  │   ├── /slices                   # Redux slice files (state management logic)
+  │   │   ├── authSlice.js          # Auth slice for user session
+  │   │   └── userSlice.js          # User-related state slice
+  │   ├── /store.js                 # Redux store configuration
+  │   ├── /middleware.js            # Redux middleware (e.g., logging, error handling)
+  │   └── /actions.js               # Optional action creators (can be merged with slices)
+  ├── /store                        # State management (could be with Redux, Zustand, or Context API)
+  │   ├── authStore.js              # Authentication state store (with Redux/Zustand)
+  │   ├── uiStore.js                # UI state store (loading, modal visibility)
+  │   └── userStore.js              # User-related state store
+  ├── /styles                       # Global styles (CSS, SASS, Tailwind)
+  │   ├── /globals.css              # Global styles
+  │   ├── /tailwind.config.js       # Tailwind configuration (if used)
+  │   └── /theme.css                # Theme-specific styles (e.g., light/dark mode)
+  ├── /types                        # TypeScript types/interfaces
+  │   ├── api.ts                    # Types for API responses
+  │   ├── user.ts                   # User-related types
+  │   ├── product.ts                # Product-related types
+  │   └── global.ts                 # Global types for common entities
+  ├── /utils                        # Utility functions (general utilities)
+  │   ├── debounce.js               # Debounce utility for reducing API calls
+  │   ├── dateUtils.js              # Date formatting utilities
+  │   └── validationUtils.js        # Common validation functions
+  ├── /validators                   # Input validation logic (form validation, etc.)
+  │   ├── emailValidator.js         # Email validation logic
+  │   └── passwordValidator.js      # Password validation logic
+  ├── /tests                        # Unit and integration tests
+  │   ├── /components               # Tests for components
+  │   │   └── Button.test.js        # Unit test for Button component
+  │   ├── /hooks                    # Tests for custom hooks
+  │   │   └── useAuth.test.js       # Test for useAuth hook
+  │   ├── /pages                    # Tests for pages
+  │   │   └── index.test.js         # Test for homepage
+  │   ├── /utils                    # Tests for utility functions
+  │   │   └── api.test.js           # Test for API utilities
+  │   └── /integration              # Integration tests (e.g., user login flow)
+  │       └── loginFlow.test.js
+  ├── /config                       # Configuration files
+  │   ├── apiConfig.js              # API base URL and settings
+  │   ├── firebaseConfig.js         # Firebase configuration (if applicable)
+  │   ├── stripeConfig.js           # Stripe-related settings
+  │   └── next.config.js            # Next.js configuration
+  ├── /migrations                   # Database migrations (if using a backend with a database)
+  ├── package.json                  # Project dependencies and scripts
+  ├── .env.local                    # Local environment variables
+  └── README.md                     # Project documentation
+
+
+
+import axios from 'axios';
+
+// Create an Axios instance with default settings
+const axiosInstance = axios.create({
+  baseURL: process.env.API_BASE_URL || 'https://api.example.com', // Adjust your API base URL here
+  headers: {
+    'Content-Type': 'application/json', // Default content type
+  },
+});
+
+// Request Interceptor
+axiosInstance.interceptors.request.use(
+  (config) => {
+    // You can add authentication tokens, modify headers, or log requests here
+    const token = localStorage.getItem('authToken'); // Get token from localStorage (or from cookies/sessionStorage)
+
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`; // Add Authorization header if token exists
+    }
+
+    return config; // Always return the config
+  },
+  (error) => {
+    // Handle request errors (e.g., network issues)
+    return Promise.reject(error);
+  }
+);
+
+// Response Interceptor
+axiosInstance.interceptors.response.use(
+  (response) => {
+    // Optionally modify or log the response before it’s passed to the caller
+    return response; // Always return the response
+  },
+  (error) => {
+    // Handle response errors (e.g., 401, 500, network errors)
+    if (error.response) {
+      // Server responded with a status code out of the 2xx range
+      if (error.response.status === 401) {
+        // Handle unauthorized (e.g., token expired, force logout)
+        localStorage.removeItem('authToken');
+        window.location.href = '/login'; // Redirect to login page
+      }
+
+      if (error.response.status === 500) {
+        // Handle server errors (optional)
+        alert('Server error! Please try again later.');
+      }
+    } else if (error.request) {
+      // The request was made but no response was received
+      console.error('Request error:', error.request);
+    } else {
+      // Something else went wrong in setting up the request
+      console.error('General error:', error.message);
+    }
+
+    return Promise.reject(error); // Always reject with the error
+  }
+);
+
+export default axiosInstance;
