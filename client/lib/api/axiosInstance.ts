@@ -1,6 +1,4 @@
 import axios from "axios";
-import { error } from "console";
-import { config } from "process";
 
 const axiosInstace=axios.create({
     baseURL: process.env.API_BASE_URL || 'https://api.example.com', // Adjust your API base URL here
@@ -12,7 +10,7 @@ const axiosInstace=axios.create({
 
 // Request interceptor
 axiosInstace.interceptors.request.use(
-    (config)=>{
+    (config:any)=>{
         const token='';
         if(token){
             config.headers['Authorization']=`Bearer ${token}`
@@ -20,7 +18,7 @@ axiosInstace.interceptors.request.use(
 
         return config;
     },
-    (error)=>{
+    (error:any)=>{
         return Promise.reject(error);
     }
 )
@@ -29,10 +27,10 @@ axiosInstace.interceptors.request.use(
 // @@ Response Interceptor
 
 axiosInstace.interceptors.response.use(
-    (response)=>{
+    (response:any)=>{
         return response;
     },
-    (error)=>{
+    (error:any)=>{
         if(error.response){
             if (error.response.status === 401) {
                 // Handle unauthorized (e.g., token expired, force logout)
