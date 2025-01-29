@@ -1,20 +1,14 @@
-/* styles/globals.css */
+/* Global font setup */
+:root {
+  --font-geist-sans: 'Geist', sans-serif;
+  --font-geist-mono: 'Geist Mono', monospace;
+}
+
 body {
-  margin: 0;
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--font-geist-sans);
 }
 
-button {
-  background-color: #1976d2;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  font-size: 16px;
-  border-radius: 4px;
-  outline: none;
-}
-
-button:hover {
-  background-color: #1565c0;
+/* Apply mono font where appropriate */
+code {
+  font-family: var(--font-geist-mono);
 }
