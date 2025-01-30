@@ -2,51 +2,66 @@
 
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import InputBox from '@/components/input/InputBox';
-import { Divider } from '@mui/material';
+import BasicButton from '@/components/button/BasicButton';
+import PasswordInputBox from '@/components/input/PasswordInputBox';
+import { loginSchemaValidate } from '@/validators/loign/loginSchema';
 
 const LoginForm: React.FC = () => {
-  const { control, handleSubmit, formState: { errors } } = useForm();
+  const { control, handleSubmit, formState: { errors } } = useForm({
+    resolver: yupResolver(loginSchemaValidate),
+  });
 
   const onSubmit = (data: any) => {
     console.log('Form Data:', data);
   };
 
-  console.log("errors", errors);
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} style={{ width: '100%' }}>
       <Controller
-        name="Name"
-        control={control}
-        defaultValue=""
-        render={({ field }) => (
-          <InputBox
-            {...field}
-            label="Name"
-            error={!!errors.Name}
-            helperText={errors.Name ? 'Name is required' : ''}
-            sx={{ marginBottom: '2px' }}  // Add space between input boxes
-          />
-        )}
-      />
-      
-      <Controller
-        name="Email"
+        name="email"
         control={control}
         defaultValue=""
         render={({ field }) => (
           <InputBox
             {...field}
             label="Email"
-            error={!!errors.Email}
-            helperText={errors.Email ? 'Email is required' : ''}
-            sx={{ marginBottom: '2px' }}  // Add space between input boxes
+            error={!!errors.email}
+            helperText={errors.email ? errors.email.message : ''}
+            sx={{
+              marginBottom: '16px',  // Space between inputs
+            }}
           />
         )}
       />
-      
-      <button type="submit">Submit</button>
+
+      <Controller
+        name="password"
+        control={control}
+        defaultValue=""
+        render={({ field }) => (
+          <PasswordInputBox
+            {...field}
+            label="Password"
+            type="password"
+            error={!!errors.password}
+            helperText={errors.password ? errors.password.message : ''}
+            sx={{
+              marginBottom: '16px',  // Space between inputs
+            }}
+          />
+        )}
+      />
+
+      <BasicButton
+        size="large"
+        type="submit"
+        label="Primary Button"
+      >
+        Click Me
+      </BasicButton>
     </form>
   );
 };

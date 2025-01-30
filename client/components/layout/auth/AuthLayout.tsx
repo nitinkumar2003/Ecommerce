@@ -2,6 +2,7 @@
 import { ReactNode } from "react";
 import { Container, Box, Typography } from "@mui/material";
 import Image from "next/image";
+import CustomBox from "@/components/box/CustomBox";
 
 type AuthLayoutProps = {
   children: ReactNode;
@@ -19,17 +20,15 @@ export default function AuthLayout({ children, heading = "Login to Nk-Ecommerce"
         justifyContent: "center",
         alignItems: "center",
         minHeight: "100vh", // Center vertically
-        // backgroundColor: "#f7f7f7", // Optional page background color
       }}
     >
-      {/* Main container with shadow and border-radius */}
-      <Box
+      <CustomBox
         sx={{
-          width: "100%", // Full width inside the container
-          backgroundColor: "white", // Background color for the form area
-          padding: 4, // Padding inside the box
-          borderRadius: 3, // Rounded corners
-          boxShadow: 3, // Shadow around the box
+          width: "100%", 
+          backgroundColor: "white", 
+          padding: 4, 
+          borderRadius: 3, 
+          boxShadow: 3,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -48,17 +47,17 @@ export default function AuthLayout({ children, heading = "Login to Nk-Ecommerce"
           height={40}
         />
         
-        {/* Heading below the logo */}
+        {/* Heading below the logo
         <Typography variant="h5" sx={{ mt: 2, color: "text.primary", fontWeight: 600 }}>
           {heading}
-        </Typography>
+        </Typography> */}
 
         {/* Spacer between heading and children */}
         <Box sx={{ mt: 3, width: "100%" }}>
           {/* Main content (children, which will be the login form or other components) */}
           {children}
         </Box>
-      </Box>
+      </CustomBox>
     </Container>
   );
 }

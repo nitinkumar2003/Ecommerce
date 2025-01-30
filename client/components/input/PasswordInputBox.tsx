@@ -1,8 +1,8 @@
-// InputBox component remains the same (no change needed)
-import React from 'react';
-import { TextField, TextFieldProps } from '@mui/material';
+import React, { useState } from 'react';
+import { TextField, IconButton, InputAdornment } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
-interface InputBoxProps {
+interface PasswordInputBoxProps {
   label: string;
   value: string | number;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -19,7 +19,7 @@ interface InputBoxProps {
   sx?: object;
 }
 
-const InputBox: React.FC<InputBoxProps> = ({
+const PasswordInputBox: React.FC<PasswordInputBoxProps> = ({
   label,
   value,
   onChange,
@@ -36,6 +36,14 @@ const InputBox: React.FC<InputBoxProps> = ({
   sx = {},
   ...rest
 }) => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
+  const inputType = type === 'password' && !showPassword ? 'password' : 'text';
+
   return (
     <TextField
       {...rest}
@@ -46,7 +54,7 @@ const InputBox: React.FC<InputBoxProps> = ({
       helperText={helperText}
       variant={variant}
       fullWidth={fullWidth}
-      type={type}
+      type={inputType}
       disabled={disabled}
       required={required}
       multiline={multiline}
@@ -55,14 +63,25 @@ const InputBox: React.FC<InputBoxProps> = ({
       sx={{
         ...sx,
         '& .MuiInputLabel-root': {
-          fontSize: '1.25rem',  // Increase font size
-          lineHeight: '2rem',   // Increase line height to push the label down
-          // paddingTop: '8px',    // Adjust padding for more vertical space
+          fontSize: '1.25rem',
+          lineHeight: '2rem',
         },
+      }}
+      InputProps={{
+        endAdornment: type === 'password' && (
+          <InputAdornment position="end">
+            <IconButton
+              onClick={handleTogglePasswordVisibility}
+              edge="end"
+              aria-label="toggle password visibility"
+            >
+              {showPassword ? <VisibilityOff /> : <Visibility />}
+            </IconButton>
+          </InputAdornment>
+        ),
       }}
     />
   );
 };
 
-export default InputBox;
-
+export default PasswordInputBox;
